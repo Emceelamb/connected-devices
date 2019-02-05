@@ -9,6 +9,7 @@ app.get('/', (request, response)=> {
 	response.write('<body>');
 	response.write('<h1>HELLO!</h1>');
 	response.write('go to \'\/browser and I will tell you about yourself ;)')
+	response.write('<br>go to \'\/browser\/{your browser} and I will tell you more browsers. :o')
 	response.write('</body>');
 	response.write('</html>');
 	response.end();
