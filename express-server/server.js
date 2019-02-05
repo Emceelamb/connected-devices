@@ -24,4 +24,13 @@ app.get('/browser', (request, response)=>{
 	response.end();
 	console.log(ua +' wants to know their browser');
 });
+
+app.get('/browser/:browser', (request,response)=>{
+	let browser = request.params.browser;
+	if(browser!='internetexplorer'){
+		response.send("Why don't you try internetexplorer? You know its the most popular web browser.")
+	} else {
+		response.send("IE #1");
+	}
+});
 app.listen(3000, ()=> console.log('Listening on port 3000'));
