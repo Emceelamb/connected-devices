@@ -1,0 +1,167 @@
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@jaames/iro/dist/iro.js"></script>
+    <style>
+        body {
+            color: #fff;
+            background: #171F30;
+        }
+
+        .wrapper svg {}
+
+        .wrap {
+            min-height: 100vh;
+            max-width: 720px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        #swatch {
+            width: 128px;
+            height: 24px;
+            border-radius: 2px;
+        }
+
+        .title {
+            font-family: sans-serif;
+            line-height: 24px;
+            display: block;
+            padding: 8px 0;
+        }
+
+        .readout {
+            margin-top: 32px;
+            font-family: monospace;
+        }
+
+        .link {
+            margin-top: 16px;
+
+            a {
+                color: MediumSlateBlue;
+            }
+        }
+        .iro__slider{
+            display:none;
+        }
+    </style>
+</head>
+
+<body id="body">
+    <div class="wrap">
+        <div class="half">
+            <div class="colorPicker"></div>
+        </div>
+        <div class="half readout">
+            <span class="title">
+                <h1>Philip Hues GUI</h1>
+            </span>
+            
+            <span class="title">Values:</span>
+            <div id="values"></div>
+            <!-- <span class="title">CSS:</span> -->
+            <div id="css"></div>
+
+        </div>
+    </div>
+
+    <script>
+        // Create a new color picker instance
+        // https://iro.js.org/guide.html#Getting-Started
+        var colorPicker = new iro.ColorPicker(".colorPicker", {
+
+            // color picker options
+            // Option guide: https://iro.js.org/guide.html#Color-Picker-Options
+            width: 320,
+            height: 320,
+            color: {
+                r: 255, g: 0, b: 0
+            }
+
+            ,
+            anticlockwise: true,
+            borderWidth: 1,
+            borderColor: "#fff",
+            // Dynamic CSS guide: https://iro.js.org/guide.html#Dynamic-CSS
+            css: {
+                "#body": {
+                    "background-color": "$color"
+                }
+            }
+        }
+
+        );
+
+        var values = document.getElementById("values");
+        var css = document.getElementById("css");
+
+        // https://iro.js.org/guide.html#color-change
+        colorPicker.on("color:change", function (color) {
+            let xy=[];
+            let rgb=color.rgbString.slice(4,color.rgbString.length-1)
+            let rgbArray=rgb.split(',');
+            let newColorXY=getXY(rgbArray[0],rgbArray[1],rgbArray[2]);
+            console.log(rgb, newColorXY);
+            let colorToSend='{"xy":['+String(newColorXY[0])+','+String(newColorXY[1])+']}';
+            body.setAt
+            // xy=getXY()
+            // Show the current color in different formats
+            // Using the selected color: https://iro.js.org/guide.html#Using-the-Selected-Color
+            values.innerHTML = ["hex: " + color.hexString,
+            "rgb: " + color.rgbString,
+            "hsl: " + color.hslString,
+            ].join("<br>");
+
+            // Get the dynamic stylesheet content and pretty-print it by replacing newlines and tabs with suitable html
+            var cssText = colorPicker.stylesheet.cssText;
+            css.innerHTML = cssText.replace(/([\n\t])/g, function ($1) {
+                switch ($1) {
+                    case "\n": return "<br>";
+                    case "\t": return "&nbsp;&nbsp;";
+                }
+            }
+
+            );
+
+            var xhr=new XMLHttpRequest();
+            xhr.open('PUT','http://128.122.151.177/api/9hxMZkjVhURlXdATSgyYhdz2cuHOXjJCBZqVmYnL/lights/4/state/');
+            xhr.send(colorToSend);
+
+        }
+
+        );
+
+        function getXY(red,green,blue){
+
+            if (red > 0.04045){ 
+            red = Math.pow((red + 0.055) / (1.0 + 0.055), 2.4);
+            }
+            else red = (red / 12.92);
+
+            if (green > 0.04045){
+            green = Math.pow((green + 0.055) / (1.0 + 0.055), 2.4);
+            }
+            else green = (green / 12.92);
+
+            if (blue > 0.04045){
+            blue = Math.pow((blue + 0.055) / (1.0 + 0.055), 2.4);
+            }
+            else blue = (blue / 12.92);
+
+            var X = red * 0.664511 + green * 0.154324 + blue * 0.162028;
+            var Y = red * 0.283881 + green * 0.668433 + blue * 0.047685;
+            var Z = red * 0.000088 + green * 0.072310 + blue * 0.986039;
+            var x = X / (X + Y + Z);
+            var y = Y / (X + Y + Z);
+            return new Array(x,y);
+
+        }
+    </script>
+</body>
+
+</html>
