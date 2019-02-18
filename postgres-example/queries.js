@@ -2,10 +2,10 @@ const SECRETS = require('./secrets');
 const Pool = require('pg').Pool;
 
 const pool = new Pool({
-    user: 'postgres',
+    user: SECRETS.DB_USER,
     host: SECRETS.DB_HOST,
-    database: 'api',
-    password: 'D!ablo23$',
+    database: SECRETS.DB_NAME,
+    password: SECRETS.DB_PASS,
     port: SECRETS.DB_PORT,
 });
 
