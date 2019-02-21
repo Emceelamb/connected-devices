@@ -4,8 +4,8 @@
 #include <ESP8266WebServer.h>
 
 // Wifi Credentials
-const char* ssid = "Emceelamb";
-const char* password = "guest123";
+const char* ssid = "<ssid>";
+const char* password = "<pass>";
 
 // Redefine Onboard LED
 #define LED_BUILTIN 2
