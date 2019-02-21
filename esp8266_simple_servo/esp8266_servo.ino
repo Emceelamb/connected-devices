@@ -20,8 +20,8 @@ Servo servoLR;
 Servo servoUD;
 
 // Wifi Credentials
-const char* ssid = "Emceelamb";
-const char* password = "guest123";
+const char* ssid = "<ssid>";
+const char* password = "<pass>";
 
 //  laser
 const int laser = D3;
