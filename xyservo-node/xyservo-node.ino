@@ -3,8 +3,8 @@
 #include <ESP8266WiFiMulti.h>
 
 #ifndef STASSID
-#define STASSID "Emceelamb"
-#define STAPSK  "guest123"
+#define STASSID "<ssid>"
+#define STAPSK  "<pass>"
 #endif
 
 const char* ssid     = STASSID;
